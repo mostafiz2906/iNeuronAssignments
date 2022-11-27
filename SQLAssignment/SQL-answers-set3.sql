@@ -2008,7 +2008,7 @@ ORDER BY
 
 DROP TABLE occupations;
 
-Q140:
+--Q140:
 
 CREATE TABLE occupations
 (
@@ -2066,7 +2066,7 @@ GROUP BY
 
 DROP TABLE occupations;
 
-Q141:
+--Q141:
 
 CREATE TABLE bst
 (
@@ -2382,7 +2382,7 @@ GROUP BY
   h.name
 ORDER BY 
   COUNT(*) DESC,
-  xh.hacker_id
+  h.hacker_id
 LIMIT 1
 ;
 
