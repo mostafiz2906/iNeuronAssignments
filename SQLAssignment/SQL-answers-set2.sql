@@ -263,7 +263,7 @@ WHERE
 DROP TABLE activity;
 
 
-Q57:
+--Q57:
 
 CREATE TABLE orders
 (
@@ -396,11 +396,11 @@ CREATE TABLE orders
 );
 
 
-INSERT INTO sales_person VALUES(1, 'John', 100000, 6, '4/1/2006');
-INSERT INTO sales_person VALUES(2, 'Amy', 12000, 5, '5/1/2010');
-INSERT INTO sales_person VALUES(3, 'Mark', 65000, 12, '12/25/2008');
-INSERT INTO sales_person VALUES(4, 'Pam', 25000, 25, '1/1/2005');
-INSERT INTO sales_person VALUES(5, 'Alex', 5000, 10, '2/3/2007');
+INSERT INTO sales_person VALUES(1, 'John', 100000, 6, '2006-04-01');
+INSERT INTO sales_person VALUES(2, 'Amy', 12000, 5, '2010-05-01');
+INSERT INTO sales_person VALUES(3, 'Mark', 65000, 12, '2008-12-25');
+INSERT INTO sales_person VALUES(4, 'Pam', 25000, 25, '2005-01-01');
+INSERT INTO sales_person VALUES(5, 'Alex', 5000, 10, '2007-02-03');
 
 INSERT INTO company VALUES(1, 'RED', 'Boston');
 INSERT INTO company VALUES(2, 'ORANGE', 'New York');
@@ -408,10 +408,10 @@ INSERT INTO company VALUES(3, 'YELLOW', 'Boston');
 INSERT INTO company VALUES(4, 'GREEN', 'Austin');
 
 
-INSERT INTO orders VALUES(1, '1/1/2014', 3, 4, 10000);
-INSERT INTO orders VALUES(2, '2/1/2014', 4, 5, 5000);
-INSERT INTO orders VALUES(3, '3/1/2014', 1, 1, 50000);
-INSERT INTO orders VALUES(4, '4/1/2014', 1, 4, 25000);
+INSERT INTO orders VALUES(1, '2014-01-01', 3, 4, 10000);
+INSERT INTO orders VALUES(2, '2014-02-01', 4, 5, 5000);
+INSERT INTO orders VALUES(3, '2014-03-01', 1, 1, 50000);
+INSERT INTO orders VALUES(4, '2014-04-01', 1, 4, 25000);
 
 SELECT
   name
@@ -543,6 +543,13 @@ DROP TABLE actor_director;
 
 --Q63:
 
+CREATE TABLE product
+(
+  product_id INT,
+  product_name VARCHAR(25),
+  CONSTRAINT pk_product PRIMARY KEY (product_id)
+);
+
 CREATE TABLE sales
 (
   sale_id INT,
@@ -555,20 +562,13 @@ CREATE TABLE sales
     REFERENCES product(product_id)
 );
 
-CREATE TABLE product
-(
-  product_id INT,
-  product_name VARCHAR(25),
-  CONSTRAINT pk_product PRIMARY KEY (product_id)
-);
+INSERT INTO product VALUES(100, 'Nokia');
+INSERT INTO product VALUES(200, 'Apple');
+INSERT INTO product VALUES(300, 'Samsung');
 
 INSERT INTO sales VALUES(1, 100, 2008, 10, 5000);
 INSERT INTO sales VALUES(2, 100, 2009, 12, 5000);
 INSERT INTO sales VALUES(7, 200, 2011, 15, 9000);
-
-INSERT INTO product VALUES(100, 'Nokia');
-INSERT INTO product VALUES(200, 'Apple');
-INSERT INTO product VALUES(300, 'Samsung');
 
 SELECT
   product_name,
@@ -1013,71 +1013,6 @@ WHERE
 
 DROP TABLE employees;
 
--- WITH report_direct_to_boss AS(
---   SELECT
---     employee_id
---   FROM 
---     employees
---   WHERE
---     manager_id = (
---       SELECT
---         employee_id
---       FROM
---         employees
---       WHERE
---         employee_name = 'Boss'
---     )
---     AND employee_id <> (
---       SELECT
---         employee_id
---       FROM
---         employees
---       WHERE
---         employee_name = 'Boss'
---     )
--- ),
--- step_two_reporter AS(
---   SELECT 
---     employee_id 
---   FROM
---     employees
---   WHERE
---     manager_id IN (
---       SELECT
---         employee_id
---       FROM
---         report_direct_to_boss
---     )
--- ),
--- step_three_reporter AS(
---   SELECT 
---     employee_id 
---   FROM
---     employees
---   WHERE
---     manager_id IN (
---       SELECT
---         employee_id
---       FROM
---         step_two_reporter
---     )
--- )  
--- SELECT
---   employee_id
--- FROM
---   report_direct_to_boss
--- UNION
--- SELECT
---   employee_id
--- FROM
---   step_two_reporter
--- UNION
--- SELECT
---   employee_id
--- FROM
---   step_three_reporter
--- ;
-
 
 --Q72:
 
@@ -1366,54 +1301,6 @@ DROP TABLE salaries;
 
 --Q77:
 
--- CREATE TABLE sales
--- (
---   sale_date DATE,
---   fruit ENUM('apples', 'oranges'),
---   sold_num INT,
---   CONSTRAINT pk_sales PRIMARY KEY(sale_date, fruit)
--- );
-
--- INSERT INTO sales VALUES('2020-05-01', 'apples', 10);
--- INSERT INTO sales VALUES('2020-05-01', 'oranges', 8);
--- INSERT INTO sales VALUES('2020-05-02', 'apples', 15);
--- INSERT INTO sales VALUES('2020-05-02', 'oranges', 15);
--- INSERT INTO sales VALUES('2020-05-03', 'apples', 20);
--- INSERT INTO sales VALUES('2020-05-03', 'oranges', 0);
--- INSERT INTO sales VALUES('2020-05-04', 'apples', 15);
--- INSERT INTO sales VALUES('2020-05-04', 'oranges', 16);
-
--- WITH daily_sales_row AS(
---   SELECT 
---     sale_date,
---     MAX(
---       CASE 
---         WHEN fruit = 'apples'
---           THEN sold_num 
---       END
---     ) AS apples_sales,
---     MAX(
---       CASE 
---         WHEN fruit = 'oranges'
---           THEN sold_num 
---       END
---     ) AS oranges_sales
---   FROM sales
---   GROUP BY
---     sale_date
--- )
--- SELECT
---   sale_date,
---   apples_sales - oranges_sales AS diff
--- FROM
---   daily_sales_row
--- ORDER BY 
---   sale_date
--- ;
-
-
---Q77:
-
 CREATE TABLE variables
 (
   name VARCHAR(5),
@@ -1484,84 +1371,6 @@ FROM
 --drop tables
 
 DROP TABLE variables;
-
-
---Q79:
-
--- CREATE TABLE movies
--- (
---   movie_id INT,
---   title VARCHAR(25),
---   CONSTRAINT pk_movies PRIMARY KEY(movie_id)
--- );
-
--- CREATE TABLE users
--- (
---   user_id INT,
---   name VARCHAR(25),
---   CONSTRAINT pk_users PRIMARY KEY(user_id)
--- );
-
--- CREATE TABLE movie_rating
--- (
---   movie_id INT,
---   user_id INT,
---   rating INT,
---   created_at DATE,
---   CONSTRAINT pk_movie_rating PRIMARY KEY(movie_id, user_id)
--- );
-
--- INSERT INTO movies VALUES(1, 'Avengers');
--- INSERT INTO movies VALUES(2, 'Frozen 2');
--- INSERT INTO movies VALUES(3, 'Joker');
-
--- INSERT INTO users VALUES(1, 'Daniel');
--- INSERT INTO users VALUES(2, 'Monica');
--- INSERT INTO users VALUES(3, 'Maria');
--- INSERT INTO users VALUES(4, 'James');
-
--- INSERT INTO movie_rating VALUES(1, 1, 3, '2020-01-12');
--- INSERT INTO movie_rating VALUES(1, 2, 4, '2020-02-11');
--- INSERT INTO movie_rating VALUES(1, 3, 2, '2020-02-12');
--- INSERT INTO movie_rating VALUES(1, 4, 1, '2020-01-01');
--- INSERT INTO movie_rating VALUES(2, 1, 5, '2020-02-17');
--- INSERT INTO movie_rating VALUES(2, 2, 2, '2020-02-01');
--- INSERT INTO movie_rating VALUES(2, 3, 2, '2020-03-01');
--- INSERT INTO movie_rating VALUES(3, 1, 3, '2020-02-22');
--- INSERT INTO movie_rating VALUES(3, 2, 4, '2020-02-25');
-
--- (
---   SELECT
---     u.name AS result
---   FROM
---     movie_rating mr 
---     JOIN users u on mr.user_id = u.user_id
---   GROUP BY
---     u.user_id,
---     u.name
---   ORDER BY 
---     COUNT(*) DESC,
---     u.name ASC
---   LIMIT 1
--- )
--- UNION 
--- (
---   SELECT
---     m.title AS result
---   FROM
---     movie_rating mr 
---     JOIN movies m on mr.movie_id = m.movie_id
---   WHERE
---     DATE_FORMAT(mr.created_at, '%Y-%m') = '2020-02'
---   GROUP BY
---     m.movie_id,
---     m.title
---   ORDER BY 
---     AVG(rating) DESC,
---     m.title ASC
---   LIMIT 1
--- ) 
--- ;
 
 
 --Q78:
@@ -1652,32 +1461,6 @@ DROP TABLE country;
 DROP TABLE calls;
 
 
--- Q81:
-
--- CREATE TABLE students
--- (
---   id INT,
---   name VARCHAR(25),
---   marks INT,
---   CONSTRAINT pk_students PRIMARY KEY(id)
--- );
-
--- INSERT INTO students VALUES(1, 'Ashley', 81);
--- INSERT INTO students VALUES(2, 'Samantha', 75);
--- INSERT INTO students VALUES(4, 'Julia', 76);
--- INSERT INTO students VALUES(3, 'Belvet', 84);
-
--- SELECT
---   name
--- FROM
---   students
--- WHERE
---   marks > 75
--- ORDER BY
---   RIGHT(name, 3),id
--- ;
-
-
 --Q79:
 
 CREATE TABLE employee
@@ -1712,74 +1495,6 @@ ORDER BY
 --drop tables
 
 DROP TABLE employee;
-
-
-
--- Q83:
-
--- CREATE TABLE employee
--- (
---   employee_id INT,
---   name VARCHAR(25),
---   months INT,
---   salary INT,
---   CONSTRAINT pk_employee PRIMARY KEY(employee_id)
--- );
-
-
--- INSERT INTO employee VALUES(12228, 'Rose', 15, 1968);
--- INSERT INTO employee VALUES(33645, 'Angela', 1, 3443);
--- INSERT INTO employee VALUES(45692, 'Frank', 17, 1608);
--- INSERT INTO employee VALUES(56118, 'Patrick', 7, 1345);
--- INSERT INTO employee VALUES(59725, 'Lisa', 11, 2330);
--- INSERT INTO employee VALUES(74197, 'Kimberly', 16, 4372);
--- INSERT INTO employee VALUES(78454, 'Bonnie', 8, 1771);
--- INSERT INTO employee VALUES(83565, 'Michael', 6, 2017);
--- INSERT INTO employee VALUES(98607, 'Todd', 5, 3396);
--- INSERT INTO employee VALUES(99989, 'Joe', 9, 3573);
-
--- SELECT
---   name
--- FROM
---   employee
--- WHERE
---   salary > 2000
---   AND months < 10
--- ORDER BY
---   employee_id;
-
-
--- Q84:
-
--- CREATE TABLE triangles
--- (
---   a INT,
---   b INT,
---   c INT
--- );
-
-
--- INSERT INTO triangles VALUES(20, 20, 23);
--- INSERT INTO triangles VALUES(20, 20, 20);
--- INSERT INTO triangles VALUES(20, 21, 22);
--- INSERT INTO triangles VALUES(13, 14, 30);
-
--- SELECT
---   a,
---   b,
---   c,
---   CASE
---     WHEN a + b <= c OR b + c <= a OR c + a <= b
---       THEN 'Not A Triangle'
---     WHEN a = b AND b = c
---       THEN 'Equilateral'
---     WHEN a = b
---       THEN 'Isosceles'
---     ELSE
---       'Scalene'
---   END AS triangle_type
--- FROM
---   triangles;
 
 
 --Q80:
@@ -2085,7 +1800,7 @@ WITH up_time_by_server AS
   CASE
     WHEN session_status = 'stop'
       THEN
-        TIMESTAMPDIFF(SECOND, status_time,LAG(status_time) OVER(PARTITION BY server_id ORDER BY status_time))/3600
+        TIMESTAMPDIFF(SECOND, LAG(status_time) OVER(PARTITION BY server_id ORDER BY status_time), status_time)/3600
   END as up_time
   FROM server_utilization
 )
