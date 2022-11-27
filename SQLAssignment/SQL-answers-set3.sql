@@ -2638,11 +2638,11 @@ CREATE TABLE transactions
   transaction_date TIMESTAMP
 );
 
-INSERT INTO transactions VALUES(1, '9.99', '2022-08-01 10:00:100');
-INSERT INTO transactions VALUES(1, '55', '2022-08-17 10:00:100');
-INSERT INTO transactions VALUES(1, '149.5', '2022-08-05 10:00:100');
-INSERT INTO transactions VALUES(1, '4.89', '2022-08-06 10:00:100');
-INSERT INTO transactions VALUES(1, '34', '2022-08-07 10:00:100');
+INSERT INTO transactions VALUES(1, '9.99', '2022-08-01 10:00:00');
+INSERT INTO transactions VALUES(1, '55', '2022-08-17 10:00:00');
+INSERT INTO transactions VALUES(1, '149.5', '2022-08-05 10:00:00');
+INSERT INTO transactions VALUES(1, '4.89', '2022-08-06 10:00:00');
+INSERT INTO transactions VALUES(1, '34', '2022-08-07 10:00:00');
 
 
 SELECT
